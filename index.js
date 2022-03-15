@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("", homeRoutes);
 
 //Defining routes for result page
-app.post("/result", (req, res, next) => {
+app.post("/result", (req, res) => {
     console.log(`Presenting the result of the calculation.`);
     console.log(`Getting Results:`);
     console.log(`Calculating the requested operation:`);
@@ -34,23 +34,23 @@ app.post("/result", (req, res, next) => {
     const operation = `${req.body.operation}`;
     let result = null;
         if (operation == "add"){
-            result = parseFloat(first) + parseFloat(second);
+            result = first + second;
         }
         else if (operation == "subtract"){
-            result = parseFloat(first) - parseFloat(second);
+            result = first - second;
         }
         else if (operation == "multiply"){
-            result = parseFloat(first) * parseFloat(second);
+            result = first * second;
         }
         else if (operation == "divide"){
-            result = parseFloat(first) / parseFloat(second);
+            result = first/second;
         }
     const queryString = `result=${result}`;
     const redirectUrl = `/result?${queryString}`;
     res.redirect(303, redirectUrl);
  });
  
- app.get("/result", (req, res, next)=>{
+ app.get("/result", (req, res)=>{
    console.log(`Generating Result...`);
    res.render("result", {result: req.query.result})
    res.sendFile(path.join(__dirname, "views", "result.pug"));
@@ -68,3 +68,4 @@ const PORT_NUMBER = 3000;
 app.listen(PORT_NUMBER, () => {
     console.log(`Server is running on port ${PORT_NUMBER}`);
 });
+console.log(`Starting the App server for simple calculator webapp...`);
